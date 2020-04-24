@@ -1,5 +1,20 @@
 .nav-bar {
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-tab {
+  background-color: inherit;
+  border-bottom: 3px solid darkgray;
+  color: black;
+  padding: 8px;
+  margin: 16px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 24x;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 h2 {

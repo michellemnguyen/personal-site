@@ -42,7 +42,6 @@ class App extends Component {
 
     return (
       <div className='body'>
-        <h1>Hello world!</h1>
         <div className='nav-bar'>
           <TabList tabs={this.tabs} 
                    activeTab={this.state.activeTab}

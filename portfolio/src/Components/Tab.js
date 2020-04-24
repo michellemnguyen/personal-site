@@ -5,21 +5,21 @@ class Tab extends Component {
     setActive = () => {
         if (this.props.tab.id === this.props.activeTab) {
             return {
-                backgroundColor: 'blue',
+                'border-bottom': '3px solid rgb(68, 190, 190)'
             }
         } else {
             return {
-                backgroundColor: 'yellow',
+                'border-bottom': '3px solid darkgray'
             }
         }
     }
 
     render() {
         return (
-            <div className='tab' 
+            <div className='nav-tab' 
                  style={this.setActive()}
                  onClick={this.props.changeTab.bind(this, this.props.tab.id)}>
-                <h3>{this.props.tab.title}</h3>
+                {this.props.tab.title}
             </div>
         );
     }
