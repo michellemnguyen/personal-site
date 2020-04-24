@@ -19,7 +19,7 @@
 }
 
 .actual-body {
-  padding: 16px;
+  background-color: inherit;
 }
 
 .statement {
@@ -33,4 +33,25 @@
   font-family: Helvetica, Arial, sans-serif;
   font-size: 36px;
   text-align: center;
+}
+
+.page-title {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 62px;
+  font-weight: bold;
+  text-align: center;
+  margin: 24px;
+}
+
+.travel-entry {
+  background-color: lightblue;
+  border-top: 1px solid darkgray;
+  border-bottom: 1px solid darkgray;
+  display: flex;
+  padding: 8px;
+}
+
+.video-container {
+  flex-grow: 1;
+  overflow: hidden;
 }
