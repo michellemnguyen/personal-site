@@ -5,11 +5,11 @@ class Tab extends Component {
     setActive = () => {
         if (this.props.tab.id === this.props.activeTab) {
             return {
-                'border-bottom': '3px solid rgb(68, 190, 190)'
+                'borderBottom': '3px solid rgb(68, 190, 190)'
             }
         } else {
             return {
-                'border-bottom': '3px solid darkgray'
+                'borderBottom': '3px solid darkgray'
             }
         }
     }

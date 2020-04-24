@@ -8,7 +8,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      activeTab: 1
+      activeTab: 1 // default: Home
     }
     this.changeTab = (id) => {
       this.setState(
@@ -36,7 +36,7 @@ class App extends Component {
       },
       {
         id: 4,
-        title: 'Contact'
+        title: 'About'
       }
     ]
 
