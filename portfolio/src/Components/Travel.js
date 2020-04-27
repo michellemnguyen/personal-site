@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { SRLWrapper } from "simple-react-lightbox"; // Import SRLWrapper
 
 import swe from './../Images/helsingborg.jpg';
 import brussels from './../Images/brussels-wide.jpg';
@@ -47,20 +48,23 @@ class Travel extends Component {
 
                 <p></p>
 
+                <SRLWrapper>
                 <div className="lowerBody">
                     <div className='article3'>
                         <h2>Helsingborg, Sweden</h2><br/>
-                        <img src={swe} alt=''/>
+                            <img src={swe} alt=''/>
                     </div>
                     <div className='article3'>
                         <h2>Brussels, Belgium</h2><br/>
-                        <img src={brussels} alt=''/>
+                            <img src={brussels} alt=''/>
                     </div>
                     <div className='article3'>
                         <h2>Amsterdam, The Netherlands</h2><br/>
-                        <img src={ams} alt=''/>
+                            <img src={ams} alt=''/>
                     </div>
                 </div>
+                </SRLWrapper>
+
             </div>
         );
     }
