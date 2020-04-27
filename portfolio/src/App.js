@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import SimpleReactLightbox from "simple-react-lightbox"; // Import Simple React Lightbox
+import SimpleReactLightbox from "simple-react-lightbox";
+import BackToTop from 'react-back-to-top';
 
 import TabList from './Components/TabList';
 import Body from './Components/Body';
@@ -44,6 +45,24 @@ class App extends Component {
 
     return (
       <div className='body'>
+
+        <BackToTop
+            mainStyle={{
+                width:'100%',
+                height:'100%',
+                background:'url(...)'
+            }}
+            percentStyle={{
+                width:'100%',
+                height:'100%',
+            }}
+            animate='none'
+            offsetTop={20}
+            step={50}
+            percent={false}
+            visiblePercent={100}
+          />
+
         <div className='nav-bar'>
           <TabList tabs={this.tabs} 
                    activeTab={this.state.activeTab}
