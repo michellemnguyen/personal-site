@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { SRLWrapper } from "simple-react-lightbox"; // Import SRLWrapper
+import { SRLWrapper } from "simple-react-lightbox";
+import YouTube from 'react-youtube';
 
 import swe from './../Images/helsingborg.jpg';
 import brussels from './../Images/brussels-wide.jpg';
@@ -7,6 +8,16 @@ import ams from './../Images/amsterdam.jpg';
 
 class Travel extends Component {
     render() {
+
+        const videoOpts = {
+            height: '390',
+            width: '640',
+            playerVars: {
+              // https://developers.google.com/youtube/player_parameters
+              autoplay: 0
+            },
+          };
+
         return (
             <div>
                 {/* <div className='page-title'>Travel</div> */}
@@ -29,20 +40,17 @@ class Travel extends Component {
 
                 <div className="lowerBody">
                         <div className='article2'>
-                        <h2>One Second a Day Abroad</h2>
-                        <i>we get it u studied abroad</i>
-                        <br/>
-                        <br/>
-                        {/* <iframe src="https://www.youtube.com/embed/5_dbVMXtqNs" frameborder="0" height="300px"
-                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
+                            <h2>One Second a Day Abroad</h2>
+                            <i>we get it u studied abroad</i>
+                            <br/>
+                            <br/>
+                            <YouTube videoId="5_dbVMXtqNs" opts={videoOpts} />;                        
                         </div>
-                    
                         <div className='article2'>
-                        <h2>Summer 2018 in Sweden</h2>
-                        Some clips from just the summer portion
-                        <br/><br/>
-                        {/* <iframe src="https://www.youtube.com/embed/BCly0NsWc-g" frameborder="0" height="300px"
-                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
+                            <h2>Summer 2018 in Sweden</h2>
+                            Some clips from just the summer portion
+                            <br/><br/>
+                                <YouTube videoId="BCly0NsWc-g" opts={videoOpts}/>;
                         </div>
                 </div>
 
