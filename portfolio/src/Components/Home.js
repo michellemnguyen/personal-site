@@ -6,8 +6,15 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <div className='statement'>Hi, I'm <b>Michelle Nguyen!</b></div>
-                <div className='tagline'>4th Year Computer Engineering @ UCSB</div>
+                <div className="title">
+                    <h1>Hello, world 🌎</h1>
+                </div>
+
+                <div className="lowerBody">
+                    <div className="article">
+                    Howdy stranger! Welcome to my portfolio website. It's very unfinished so pls don't mind the mess :)
+                    </div>
+                </div>
             </div>
         );
     }

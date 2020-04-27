@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 
+import swe from './../Images/helsingborg.jpg';
+import brussels from './../Images/brussels-wide.jpg';
+import ams from './../Images/amsterdam.jpg';
+
 class Travel extends Component {
     render() {
         return (
             <div>
-                <div className='page-title'>Travel</div>
+                {/* <div className='page-title'>Travel</div> */}
 
                 {/* TWO VIDEOS, SIDE BY SIDE */}
-                <div className='travel-entry'>
+                {/* <div className='travel-entry'>
                     <div className='video-container'>
                         <iframe title="1 Second/Day" src="https://www.youtube.com/embed/5_dbVMXtqNs" frameborder="0" width="100%" height="250%"
                                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -16,15 +20,47 @@ class Travel extends Component {
                         <iframe title="summer 2018" src="https://www.youtube.com/embed/BCly0NsWc-g" frameborder="0" width="100%" height="250%"
                                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
+                </div> */}
+
+                <div className="title">
+                    <h1>Travel</h1>
                 </div>
 
-                {/* SWEDEN PHOTO, GOLDEN RULE */}
+                <div className="lowerBody">
+                        <div className='article2'>
+                        <h2>One Second a Day Abroad</h2>
+                        <i>we get it u studied abroad</i>
+                        <br/>
+                        <br/>
+                        {/* <iframe src="https://www.youtube.com/embed/5_dbVMXtqNs" frameborder="0" height="300px"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
+                        </div>
+                    
+                        <div className='article2'>
+                        <h2>Summer 2018 in Sweden</h2>
+                        Some clips from just the summer portion
+                        <br/><br/>
+                        {/* <iframe src="https://www.youtube.com/embed/BCly0NsWc-g" frameborder="0" height="300px"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */}
+                        </div>
+                </div>
 
-                {/* DENMARK PHOTO, GOLDEN RULE */}
+                <p></p>
 
-                {/* AMSTERDAM PHOTO, GOLDEN RULE */}
-
-                {/* UK PHOTOS, GOLDEN RULE */}
+                <div className="lowerBody">
+                    <div className='article3'>
+                        <h2>Helsingborg, Sweden</h2><br/>
+                        <img src={swe} alt=''/>
+                    </div>
+                    <div className='article3'>
+                        <h2>Brussels, Belgium</h2><br/>
+                        <img src={brussels} alt=''/>
+                    </div>
+                    <div className='article3'>
+                        <h2>Amsterdam, The Netherlands</h2><br/>
+                        <img src={ams} alt=''/>
+                    </div>
+                </div>
             </div>
         );
     }

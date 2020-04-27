@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import SimpleReactLightbox from "simple-react-lightbox"; // Import Simple React Lightbox
+
 import TabList from './Components/TabList';
 import Body from './Components/Body';
 import './App.css';
@@ -48,7 +50,9 @@ class App extends Component {
                    changeTab={this.changeTab}/>
         </div>
         <div className='actual-body'>
-          <Body activeTab={this.state.activeTab}/>
+          <SimpleReactLightbox>
+            <Body activeTab={this.state.activeTab}/>
+          </SimpleReactLightbox>
         </div>
       </div>
     );
