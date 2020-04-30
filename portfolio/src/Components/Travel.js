@@ -1,13 +1,27 @@
 import React, { Component } from 'react';
-import { SRLWrapper } from "simple-react-lightbox";
+import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css';
 import YouTube from 'react-youtube';
 
 import swe from './../Images/helsingborg.jpg';
 import brussels from './../Images/brussels-wide.jpg';
 import ams from './../Images/amsterdam.jpg';
+const images = [swe, brussels, ams];  
 
 class Travel extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            photoIndex: 0,
+            isOpen: false,
+        };
+    }
+
     render() {
+
+        const { photoIndex, isOpen } = this.state;
 
         const videoOpts = {
             height: '100%',
@@ -42,22 +56,39 @@ class Travel extends Component {
 
                 <p></p>
 
-                <SRLWrapper>
                 <div className="lowerBody">
                     <div className='article3'>
                         <h2>Helsingborg, Sweden</h2><br/>
-                            <img src={swe} alt=''/>
+                            <img src={swe} alt='' onClick={() => this.setState({ isOpen: true })}/>
                     </div>
                     <div className='article3'>
                         <h2>Brussels, Belgium</h2><br/>
-                            <img src={brussels} alt=''/>
+                            <img src={brussels} alt='' onClick={() => this.setState({ isOpen: true })}/>
                     </div>
                     <div className='article3'>
                         <h2>Amsterdam, The Netherlands</h2><br/>
-                            <img src={ams} alt=''/>
+                            <img src={ams} alt='' onClick={() => this.setState({ isOpen: true })}/>
                     </div>
                 </div>
-                </SRLWrapper>
+
+                {isOpen && (
+                    <Lightbox
+                        mainSrc={images[photoIndex]}
+                        nextSrc={images[(photoIndex + 1) % images.length]}
+                        prevSrc={images[(photoIndex + images.length - 1) % images.length]}
+                        onCloseRequest={() => this.setState({ isOpen: false })}
+                        onMovePrevRequest={() =>
+                        this.setState({
+                            photoIndex: (photoIndex + images.length - 1) % images.length,
+                        })
+                        }
+                        onMoveNextRequest={() =>
+                        this.setState({
+                            photoIndex: (photoIndex + 1) % images.length,
+                        })
+                        }
+                    />
+                )}
 
             </div>
         );
