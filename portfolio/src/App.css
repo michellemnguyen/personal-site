@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: center;
   background-color: white;
+  width: 100%;
 }
 
 .nav-tab {
@@ -62,11 +63,32 @@
   font-size: 24px;
   padding: 10px;
   margin: 20px 0px 20px 0px;
+  width: 100%
+}
+
+
+/* for mobile devices */
+@media all and (max-width: 550px){
+
+  /* will fix to become hamburger menu instead */
+  .nav-tab {
+    padding: 5px 15px;
+    margin: 8px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+  }  
+
+  .lowerBody {
+    flex-direction: column;
+  }
+
 }
 
 /* flex container */
 .lowerBody {
-  margin: auto;
   text-align: center;
   display: flex;
   flex-wrap: wrap;
@@ -86,19 +108,11 @@
   flex: 1;
 }
 
-.article2:first-child {
-  margin-right: 20px;
-}
-
 /* flex child 1/3's */
 .article3 {
   background-color: white;
   padding: 20px;
   flex: 1;
-}
-
-.article3:first-child, .article3:second-child {
-  margin-right: 20px;
 }
 
 img {

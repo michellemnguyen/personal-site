@@ -50,16 +50,12 @@ class App extends Component {
             mainStyle={{
                 width:'100%',
                 height:'100%',
-                background:'url(...)'
-            }}
-            percentStyle={{
-                width:'100%',
-                height:'100%',
+                background:'./Images/arrowUp.png'
             }}
             animate='none'
             offsetTop={20}
             step={50}
-            percent={false}
+            isPercent={false}
             visiblePercent={100}
           />
 

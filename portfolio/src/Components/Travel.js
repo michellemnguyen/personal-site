@@ -10,8 +10,8 @@ class Travel extends Component {
     render() {
 
         const videoOpts = {
-            height: '390',
-            width: '640',
+            height: '100%',
+            width: '100%',
             playerVars: {
               // https://developers.google.com/youtube/player_parameters
               autoplay: 0
@@ -20,19 +20,6 @@ class Travel extends Component {
 
         return (
             <div>
-                {/* <div className='page-title'>Travel</div> */}
-
-                {/* TWO VIDEOS, SIDE BY SIDE */}
-                {/* <div className='travel-entry'>
-                    <div className='video-container'>
-                        <iframe title="1 Second/Day" src="https://www.youtube.com/embed/5_dbVMXtqNs" frameborder="0" width="100%" height="250%"
-                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <div className='video-container'>
-                        <iframe title="summer 2018" src="https://www.youtube.com/embed/BCly0NsWc-g" frameborder="0" width="100%" height="250%"
-                                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                </div> */}
 
                 <div className="title">
                     <h1>Travel</h1>
@@ -42,15 +29,14 @@ class Travel extends Component {
                         <div className='article2'>
                             <h2>One Second a Day Abroad</h2>
                             <i>we get it u studied abroad</i>
-                            <br/>
-                            <br/>
-                            <YouTube videoId="5_dbVMXtqNs" opts={videoOpts} />;                        
+                            <br/><br/>
+                            <YouTube videoId="5_dbVMXtqNs" opts={videoOpts} />                       
                         </div>
                         <div className='article2'>
                             <h2>Summer 2018 in Sweden</h2>
                             Some clips from just the summer portion
                             <br/><br/>
-                                <YouTube videoId="BCly0NsWc-g" opts={videoOpts}/>;
+                            <YouTube videoId="BCly0NsWc-g" opts={videoOpts}/>
                         </div>
                 </div>
 
