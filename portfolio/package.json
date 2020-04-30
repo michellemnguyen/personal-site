@@ -8,10 +8,10 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "react": "^16.13.1",
-    "react-back-to-top": "^1.0.3",
     "react-dom": "^16.13.1",
     "react-image-lightbox": "^5.1.1",
     "react-scripts": "3.4.1",
+    "react-scroll-up-button": "^1.6.4",
     "react-youtube": "^7.11.2"
   },
   "scripts": {

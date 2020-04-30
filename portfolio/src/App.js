@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import SimpleReactLightbox from "simple-react-lightbox";
-import BackToTop from 'react-back-to-top';
-
+import ScrollUpButton from "react-scroll-up-button";
 import TabList from './Components/TabList';
 import Body from './Components/Body';
 import './App.css';
@@ -46,18 +44,10 @@ class App extends Component {
     return (
       <div className='body'>
 
-        <BackToTop
-            mainStyle={{
-                width:'100%',
-                height:'100%',
-                background:'./Images/arrowUp.png'
-            }}
-            animate='none'
-            offsetTop={20}
-            step={50}
-            isPercent={false}
-            visiblePercent={100}
-          />
+        <ScrollUpButton 
+          ShowAtPosition={0.2*window.innerHeight}
+          AnimationDuration={250}
+        />
 
         <div className='nav-bar'>
           <TabList tabs={this.tabs} 
@@ -65,9 +55,7 @@ class App extends Component {
                    changeTab={this.changeTab}/>
         </div>
         <div className='actual-body'>
-          <SimpleReactLightbox>
             <Body activeTab={this.state.activeTab}/>
-          </SimpleReactLightbox>
         </div>
       </div>
     );
