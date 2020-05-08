@@ -88,12 +88,25 @@
 
 }
 
+.messageContainer {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 70vh;
+  display: flex;
+  color: black;
+  /* flex-direction: column; */
+}
+
 /* flex container */
 .lowerBody {
   text-align: center;
   color: black;
   display: flex;
   flex-wrap: wrap;
+  overflow: hidden;
+  flex: 1;
 }
 
 /* flex child */
@@ -101,6 +114,7 @@
   background-color: white;
   padding: 20px;
   flex: 1;
+  min-height: min-content; 
 }
 
 /* flex child 1/2's */
@@ -116,6 +130,14 @@
   padding: 20px;
   flex: 1;
 }
+
+.messages {
+  background-color: white;
+  overflow: auto;
+  flex: 1;
+  scroll-padding: 100px;
+}
+
 
 img {
   max-width: 100%;

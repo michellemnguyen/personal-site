@@ -76,10 +76,11 @@ class Guestbook extends Component {
     }
 
     /*  FUNCTIONAL TODO:
-        - prevent form submission if there are errors
+        - prevent form submission + don't actually submit if there are errors
             - no name, msg, or privacy setting
             - other fields don't have proper length
         - scroll message div when too many messages
+        - only display public messages
         - apply formatting to public messages
             - name, bio, msg, DATE (figure out)
 
@@ -165,7 +166,7 @@ class Guestbook extends Component {
                     - map messsages to formatted
                 */}
 
-                <div className='lowerBody'>
+                <div className='messageContainer'>
                     
                     <div className='article2'>
 
@@ -173,18 +174,18 @@ class Guestbook extends Component {
                         <label>Name</label>
                         <input type="text" name="name" placeholder="What's your name?" 
                             onChange={this.handleChange} value={this.state.name} />
-                        {errors.name.length > 0 && <span className='error'>{errors.name}</span>}
+                        {errors.name.length > 0 && <div className='error'>{errors.name}</div>}
 
                         <label>Description</label>
                         <input type="text" name="bio" placeholder="Write a short description about yourself." 
                             onChange={this.handleChange} value={this.state.bio} />
-                        {errors.bio.length > 0 && <span className='error'>{errors.bio}</span>}
+                        {errors.bio.length > 0 && <div className='error'>{errors.bio}</div>}
 
                         
                         <label>Message</label>
                         <textarea type="text" name="msg" placeholder="What would you like to tell me?" 
                             onChange={this.handleChange} value={this.state.msg} />
-                        {errors.msg.length > 0 && <span className='error'>{errors.msg}</span>}
+                        {errors.msg.length > 0 && <div className='error'>{errors.msg}</div>}
 
                         <label>Would you like your message viewable by everyone or just me? (Click to select)</label>
                         <select type="text" name="isPublic" placeholder="Would you like your message public or private?" 
@@ -201,17 +202,17 @@ class Guestbook extends Component {
 
                     </div>
 
-                    <div className='article2'>
+                    <div className='messages'>
 
                         {/* basically gonna use map function to grab data from firebase and map out */}
 
                         {this.state.items.map((item) => {
                             return (
-                            <li key={item.id}>
+                            <div key={item.id}>
                                 <h3>{item.name}</h3>
                                 <p>{item.bio}</p>
                                 <p>{item.msg}</p>
-                            </li>
+                            </div>
                             )
                         })}
 
