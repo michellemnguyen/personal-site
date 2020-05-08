@@ -3,17 +3,21 @@ import firebase from '../firebase'
 import '../milligram.css'
 // resource for a lot of the code used: https://css-tricks.com/intro-firebase-react/
 // another resource for form validation: https://www.telerik.com/blogs/up-and-running-with-react-form-validation
+// aesthetics: https://milligram.io/forms.html
 
 const validEmailRegex = 
   // eslint-disable-next-line no-useless-escape
   RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 
-const validateForm = (errors) => {
+const validateForm = (errors, name, msg) => {
     let valid = true;
     Object.values(errors).forEach(
         // if we have an error string set valid to false
         (val) => val.length > 0 && (valid = false)
     );
+    if (name.length === 0 || msg.length === 0) {
+        valid = false
+    }
     return valid;
 };
 
@@ -76,10 +80,10 @@ class Guestbook extends Component {
     }
 
     /*  FUNCTIONAL TODO:
-        - prevent form submission + don't actually submit if there are errors
+        - DONE! prevent form submission + don't actually submit if there are errors
             - no name, msg, or privacy setting
             - other fields don't have proper length
-        - scroll message div when too many messages
+        - DONE! scroll message div when too many messages
         - only display public messages
         - apply formatting to public messages
             - name, bio, msg, DATE (figure out)
@@ -95,10 +99,11 @@ class Guestbook extends Component {
         // prevent page from refreshing
         e.preventDefault(); 
 
-        if(validateForm(this.state.errors)) {
+        if(validateForm(this.state.errors, this.state.name, this.state.msg)) {
             console.info('Valid Form');
         } else {
-            console.error('Invalid Form');
+            alert('There are errors with your submission. Please check to see if you have properly filled out the required sections.');
+            return;
         }
 
         // tell firebase where to store our form data
@@ -171,7 +176,7 @@ class Guestbook extends Component {
                     <div className='article2'>
 
                     <form onSubmit={this.handleSubmit}>
-                        <label>Name</label>
+                        <label>Name (Required)</label>
                         <input type="text" name="name" placeholder="What's your name?" 
                             onChange={this.handleChange} value={this.state.name} />
                         {errors.name.length > 0 && <div className='error'>{errors.name}</div>}
@@ -182,7 +187,7 @@ class Guestbook extends Component {
                         {errors.bio.length > 0 && <div className='error'>{errors.bio}</div>}
 
                         
-                        <label>Message</label>
+                        <label>Message (Required)</label>
                         <textarea type="text" name="msg" placeholder="What would you like to tell me?" 
                             onChange={this.handleChange} value={this.state.msg} />
                         {errors.msg.length > 0 && <div className='error'>{errors.msg}</div>}
@@ -206,14 +211,19 @@ class Guestbook extends Component {
 
                         {/* basically gonna use map function to grab data from firebase and map out */}
 
+                        {/* eslint-disable-next-line array-callback-return */}
                         {this.state.items.map((item) => {
-                            return (
-                            <div key={item.id}>
-                                <h3>{item.name}</h3>
-                                <p>{item.bio}</p>
-                                <p>{item.msg}</p>
-                            </div>
-                            )
+
+                            if (item.isPublic) {
+                                return (
+                                    <div key={item.id}>
+                                        <div className='msgName'>{item.name}</div>
+                                        {item.bio}
+                                        <p>Message: {item.msg}</p>
+                                    </div>
+                                )
+                            } 
+                            
                         })}
 
                     </div>

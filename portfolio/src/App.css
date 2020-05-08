@@ -138,6 +138,11 @@
   scroll-padding: 100px;
 }
 
+.msgName {
+  font-size: 18px; 
+  font-weight: bold;
+}
+
 
 img {
   max-width: 100%;
