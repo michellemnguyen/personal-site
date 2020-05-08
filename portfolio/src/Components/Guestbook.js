@@ -75,6 +75,20 @@ class Guestbook extends Component {
 
     }
 
+    /*  FUNCTIONAL TODO:
+        - prevent form submission if there are errors
+            - no name, msg, or privacy setting
+            - other fields don't have proper length
+        - scroll message div when too many messages
+        - apply formatting to public messages
+            - name, bio, msg, DATE (figure out)
+
+        AESTHETIC TODO:
+        - change error messages to left align
+        - EXTRA CREDIT:
+            - animate form arrival on loading
+            - animate new message arrival
+    */
     handleSubmit(e) {
 
         // prevent page from refreshing
@@ -133,6 +147,10 @@ class Guestbook extends Component {
     }
 
     render() {
+
+        const {errors} = this.state;
+        
+
         return (
             <div>
 
@@ -155,20 +173,24 @@ class Guestbook extends Component {
                         <label>Name</label>
                         <input type="text" name="name" placeholder="What's your name?" 
                             onChange={this.handleChange} value={this.state.name} />
+                        {errors.name.length > 0 && <span className='error'>{errors.name}</span>}
 
                         <label>Description</label>
                         <input type="text" name="bio" placeholder="Write a short description about yourself." 
                             onChange={this.handleChange} value={this.state.bio} />
+                        {errors.bio.length > 0 && <span className='error'>{errors.bio}</span>}
+
                         
                         <label>Message</label>
                         <textarea type="text" name="msg" placeholder="What would you like to tell me?" 
                             onChange={this.handleChange} value={this.state.msg} />
+                        {errors.msg.length > 0 && <span className='error'>{errors.msg}</span>}
 
-                        <label>Would you like your message viewable by everyone or just me?</label>
+                        <label>Would you like your message viewable by everyone or just me? (Click to select)</label>
                         <select type="text" name="isPublic" placeholder="Would you like your message public or private?" 
                             onChange={this.handleChange} value={this.state.isPublic}>
-                                <option>Everyone</option>
-                                <option>Just Me</option>
+                                <option value='true'>Everyone</option>
+                                <option value='false'>Just Me</option>
                         </select>
 
                         <label>Email Address</label>

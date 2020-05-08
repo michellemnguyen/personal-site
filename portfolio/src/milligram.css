@@ -190,6 +190,11 @@
    padding: 1rem 1.5rem;
    white-space: pre;
  }
+
+ .error {
+    color: red;
+    text-align: left;
+ }
  
  hr {
    border: 0;
