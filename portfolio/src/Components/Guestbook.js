@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import firebase from '../firebase'
+import date from 'date-and-time';
 import '../milligram.css'
 // resource for a lot of the code used: https://css-tricks.com/intro-firebase-react/
 // another resource for form validation: https://www.telerik.com/blogs/up-and-running-with-react-form-validation
@@ -21,6 +22,8 @@ const validateForm = (errors, name, msg) => {
     return valid;
 };
 
+const pattern = date.compile('MMM D YYYY h:m A');
+
 class Guestbook extends Component {
 
     constructor() {
@@ -31,6 +34,7 @@ class Guestbook extends Component {
             msg: '',
             isPublic: false,
             email: '',
+            date: '',
             errors: {
                 name: '',
                 bio: '',
@@ -84,8 +88,8 @@ class Guestbook extends Component {
             - no name, msg, or privacy setting
             - other fields don't have proper length
         - DONE! scroll message div when too many messages
-        - only display public messages
-        - apply formatting to public messages
+        - DONE! only display public messages
+        - DONE! apply formatting to public messages
             - name, bio, msg, DATE (figure out)
 
         AESTHETIC TODO:
@@ -106,6 +110,10 @@ class Guestbook extends Component {
             return;
         }
 
+        let currDate = date.format(new Date(), pattern).toString();
+
+        console.log(currDate);
+
         // tell firebase where to store our form data
         const itemsRef = firebase.database().ref('items');
 
@@ -115,7 +123,8 @@ class Guestbook extends Component {
           bio: this.state.bio,
           msg: this.state.msg,
           isPublic: this.state.isPublic,
-          email: this.state.email
+          email: this.state.email,
+          date: currDate
         }
 
         // send to firebase 
@@ -127,7 +136,8 @@ class Guestbook extends Component {
             bio: '',
             msg: '',
             isPublic: false,
-            email: ''
+            email: '',
+            date: ''
         });
     }
 
@@ -143,7 +153,8 @@ class Guestbook extends Component {
               bio: items[item].bio,
               msg: items[item].msg,
               isPublic: items[item].isPublic,
-              email: items[item].email
+              email: items[item].email,
+              date: items[item].date
             });
           }
           this.setState({
@@ -217,6 +228,7 @@ class Guestbook extends Component {
                             if (item.isPublic) {
                                 return (
                                     <div key={item.id}>
+                                        <div> {item.date} </div>
                                         <div className='msgName'>{item.name}</div>
                                         {item.bio}
                                         <p>Message: {item.msg}</p>
