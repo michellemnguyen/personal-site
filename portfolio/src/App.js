@@ -3,6 +3,9 @@ import ScrollUpButton from "react-scroll-up-button";
 import TabList from './Components/TabList';
 import Body from './Components/Body';
 import './App.css';
+import config from './config';
+
+const firebase = require('firebase')
 
 class App extends Component {
 
@@ -11,6 +14,7 @@ class App extends Component {
     this.state = {
       activeTab: 1 // default: Home
     }
+
     this.changeTab = (id) => {
       this.setState(
         {
