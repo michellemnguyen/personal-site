@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import firebase from '../firebase'
-
+import '../milligram.css'
 // resource for a lot of the code used: https://css-tricks.com/intro-firebase-react/
 // another resource for form validation: https://www.telerik.com/blogs/up-and-running-with-react-form-validation
 
@@ -152,14 +152,26 @@ class Guestbook extends Component {
                     <div className='article2'>
 
                     <form onSubmit={this.handleSubmit}>
+                        <label>Name</label>
                         <input type="text" name="name" placeholder="What's your name?" 
                             onChange={this.handleChange} value={this.state.name} />
-                        <input type="text" name="bio" placeholder="Write a short description." 
+
+                        <label>Description</label>
+                        <input type="text" name="bio" placeholder="Write a short description about yourself." 
                             onChange={this.handleChange} value={this.state.bio} />
-                        <input type="text" name="msg" placeholder="What would you like to tell me?" 
+                        
+                        <label>Message</label>
+                        <textarea type="text" name="msg" placeholder="What would you like to tell me?" 
                             onChange={this.handleChange} value={this.state.msg} />
-                        <input type="text" name="isPublic" placeholder="Would you like your message public or private?" 
-                            onChange={this.handleChange} value={this.state.isPublic} />
+
+                        <label>Would you like your message viewable by everyone or just me?</label>
+                        <select type="text" name="isPublic" placeholder="Would you like your message public or private?" 
+                            onChange={this.handleChange} value={this.state.isPublic}>
+                                <option>Everyone</option>
+                                <option>Just Me</option>
+                        </select>
+
+                        <label>Email Address</label>
                         <input type="text" name="email" placeholder="What is your email?" 
                             onChange={this.handleChange} value={this.state.email} />
                         <button>Submit</button>

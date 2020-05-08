@@ -60,8 +60,9 @@
 .title {
   background-color: white;
   text-align: center;
+  color: black;
   font-size: 24px;
-  padding: 10px;
+  padding: 20px 20px 5px 20px;
   margin: 20px 0px 20px 0px;
   width: 100%
 }
@@ -90,6 +91,7 @@
 /* flex container */
 .lowerBody {
   text-align: center;
+  color: black;
   display: flex;
   flex-wrap: wrap;
 }
