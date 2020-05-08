@@ -38,6 +38,10 @@ class App extends Component {
       {
         id: 4,
         title: 'About'
+      },
+      {
+        id: 5,
+        title: 'Guest Book'
       }
     ]
 

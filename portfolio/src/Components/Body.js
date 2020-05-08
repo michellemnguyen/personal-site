@@ -3,6 +3,7 @@ import Home from './Home';
 import Projects from './Projects';
 import Travel from './Travel';
 import About from './About';
+import Guestbook from './Guestbook';
 
 class Body extends Component {
 
@@ -17,6 +18,8 @@ class Body extends Component {
                 return (<Travel/>);
             case 4:
                 return (<About/>);
+            case 5:
+                return (<Guestbook/>);
             default:
                 return ('404');
         }
