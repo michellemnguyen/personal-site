@@ -7,6 +7,7 @@ class Home extends Component {
         return (
             <div>
                 <div className="title">
+                     {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
                     <h1>Hello, world 🌎</h1>
                 </div>
 
