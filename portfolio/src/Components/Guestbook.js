@@ -22,7 +22,7 @@ const validateForm = (errors, name, msg) => {
     return valid;
 };
 
-const pattern = date.compile('MMM D YYYY h:m A');
+const pattern = date.compile('MMM D YYYY hh:mm A');
 
 class Guestbook extends Component {
 
@@ -91,6 +91,7 @@ class Guestbook extends Component {
         - DONE! only display public messages
         - DONE! apply formatting to public messages
             - name, bio, msg, DATE (figure out)
+        - alert upon successful submission
 
         AESTHETIC TODO:
         - change error messages to left align
@@ -139,6 +140,8 @@ class Guestbook extends Component {
             email: '',
             date: ''
         });
+
+        alert('Your message has been submitted!');
     }
 
     componentDidMount() {
@@ -203,11 +206,11 @@ class Guestbook extends Component {
                             onChange={this.handleChange} value={this.state.msg} />
                         {errors.msg.length > 0 && <div className='error'>{errors.msg}</div>}
 
-                        <label>Would you like your message viewable by everyone or just me? (Click to select)</label>
+                        <label>Would you like your message public or private? (Click to select)</label>
                         <select type="text" name="isPublic" placeholder="Would you like your message public or private?" 
                             onChange={this.handleChange} value={this.state.isPublic}>
-                                <option value='true'>Everyone</option>
-                                <option value='false'>Just Me</option>
+                                <option value='true'>Public</option>
+                                <option value='false'>Private</option>
                         </select>
 
                         <label>Email Address</label>

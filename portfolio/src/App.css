@@ -135,7 +135,8 @@
   background-color: white;
   overflow: auto;
   flex: 1;
-  scroll-padding: 100px;
+  padding: 20px;
+  scroll-padding: 20px;
 }
 
 .msgName {
