@@ -139,11 +139,27 @@
   scroll-padding: 20px;
 }
 
-.msgName {
-  font-size: 18px; 
-  font-weight: bold;
+.date {
+  font-size: 16px;
+  color: darkslategray;
 }
 
+.msgName {
+  font-size: 20px; 
+  font-weight: bold;
+  color: rgb(68, 190, 190);
+}
+
+.bio {
+  font-size: 16px; 
+  color: darkgrey;
+}
+
+.msg {
+  font-size: 16px; 
+  padding-left: 10px;
+  border-left: 3px solid;
+}
 
 img {
   max-width: 100%;

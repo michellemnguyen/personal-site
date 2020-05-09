@@ -174,7 +174,7 @@ class Guestbook extends Component {
             <div>
 
                 <div className='title'>
-                    <h1>Guestbook</h1>
+                    <h1>Say Hello!</h1>
                 </div>
 
 
@@ -219,7 +219,8 @@ class Guestbook extends Component {
                         <label>Email Address</label>
                         <input type="text" name="email" placeholder="What is your email?" 
                             onChange={this.handleChange} value={this.state.email} />
-                        <button>Submit</button>
+                        
+                        <br/><br/><button>Submit</button>
                     </motion.form>
 
                     </div>
@@ -237,10 +238,11 @@ class Guestbook extends Component {
                                         animate={{ x: 20 }}
                                         transition={{ duration: 1 }}
                                     >
-                                        <div> {item.date} </div>
+                                        <div className='date'> {item.date} </div>
                                         <div className='msgName'>{item.name}</div>
-                                        {item.bio}
-                                        <p>Message: {item.msg}</p>
+                                        <div className='bio'>{item.bio}</div>
+                                        <div className='msg'>{item.msg}</div>
+                                        <p></p>
                                     </motion.div>
                                 )
                             } 

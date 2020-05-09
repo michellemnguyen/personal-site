@@ -257,6 +257,7 @@
    font-size: 1.6rem;
    font-weight: 700;
    margin-bottom: .5rem;
+   margin-top: 0.5rem;
  }
  
  fieldset {
@@ -496,7 +497,7 @@
  input,
  select,
  textarea {
-   margin-bottom: 1.5rem;
+   margin-bottom: 0.5rem;
  }
  
  blockquote,
