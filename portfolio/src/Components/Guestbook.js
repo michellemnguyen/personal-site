@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import firebase from '../firebase'
 import date from 'date-and-time';
+import { motion } from 'framer-motion';
 import '../milligram.css'
 // resource for a lot of the code used: https://css-tricks.com/intro-firebase-react/
 // another resource for form validation: https://www.telerik.com/blogs/up-and-running-with-react-form-validation
@@ -91,10 +92,9 @@ class Guestbook extends Component {
         - DONE! only display public messages
         - DONE! apply formatting to public messages
             - name, bio, msg, DATE (figure out)
-        - alert upon successful submission
+        - DONE! alert upon successful submission
 
         AESTHETIC TODO:
-        - change error messages to left align
         - EXTRA CREDIT:
             - animate form arrival on loading
             - animate new message arrival
@@ -170,7 +170,6 @@ class Guestbook extends Component {
 
         const {errors} = this.state;
         
-
         return (
             <div>
 
@@ -189,7 +188,11 @@ class Guestbook extends Component {
                     
                     <div className='article2'>
 
-                    <form onSubmit={this.handleSubmit}>
+                    <motion.form 
+                        onSubmit={this.handleSubmit}
+                        animate={{ x: 20 }}
+                        transition={{ duration: 1 }}
+                    >
                         <label>Name (Required)</label>
                         <input type="text" name="name" placeholder="What's your name?" 
                             onChange={this.handleChange} value={this.state.name} />
@@ -217,7 +220,7 @@ class Guestbook extends Component {
                         <input type="text" name="email" placeholder="What is your email?" 
                             onChange={this.handleChange} value={this.state.email} />
                         <button>Submit</button>
-                    </form>
+                    </motion.form>
 
                     </div>
 
@@ -226,20 +229,25 @@ class Guestbook extends Component {
                         {/* basically gonna use map function to grab data from firebase and map out */}
 
                         {/* eslint-disable-next-line array-callback-return */}
-                        {this.state.items.map((item) => {
-
-                            if (item.isPublic) {
+                        { this.state.items.map((item) => {
+                             if (item.isPublic) {
                                 return (
-                                    <div key={item.id}>
+                                    <motion.div 
+                                        key={item.id}
+                                        animate={{ x: 20 }}
+                                        transition={{ duration: 1 }}
+                                    >
                                         <div> {item.date} </div>
                                         <div className='msgName'>{item.name}</div>
                                         {item.bio}
                                         <p>Message: {item.msg}</p>
-                                    </div>
+                                    </motion.div>
                                 )
                             } 
                             
-                        })}
+                        }) 
+                        }
+
 
                     </div>
 
