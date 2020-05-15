@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^7.1.2",
     "@types/react-transition-group": "^4.2.4",
     "@types/youtube": "0.0.38",
+    "axios": "^0.19.2",
     "date-and-time": "^0.13.1",
     "firebase": "^7.14.3",
     "framer-motion": "^1.10.3",
