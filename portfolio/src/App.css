@@ -164,3 +164,16 @@
 img {
   max-width: 100%;
 }
+
+img.movie {
+  -webkit-filter: brightness(100%);
+}
+
+img.movie:hover {
+  -webkit-filter: brightness(30%);
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  transition: all 1s ease;
+}

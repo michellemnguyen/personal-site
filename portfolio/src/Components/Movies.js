@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import axios from "axios"; 
+import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
 import '../milligram.css'
 
 const api_url = 'http://www.omdbapi.com/?apikey=1bfcf4bf&i=' // needs IMDB ID
 
-let movies_list = ['tt0381707', 'tt0878804', 'tt0109830', 'tt0245429', 'tt0095016', 'tt0268978', 'tt0319343', 'tt0119177']
-// White Chicks, The Blind Side, Forrest Gump, Spirited Away, Die Hard, A Beautiful Mind, Elf, Gattaca
+let movies_list = ['tt0381707', 'tt0878804', 'tt0109830', 'tt0245429', 'tt0095016', 'tt0268978', 
+                    'tt0319343', 'tt0119177', 'tt0119116', 'tt0816692', 'tt0910970', 'tt0099785']
+// White Chicks, The Blind Side, Forrest Gump, Spirited Away, Die Hard, A Beautiful Mind,
+// Elf, Gattaca, The Fifth Element, Interstellar, Wall-E, Home Alone
 
 // let options = {mode: 'cors', headers: { 'Access-Control-Allow-Origin': true }}
 
@@ -46,7 +49,7 @@ class Movies extends Component {
                 let movieObject = res.data
                 let newMovie = {
                     title: movieObject.Title,
-                    directer: movieObject.Director,
+                    director: movieObject.Director,
                     rating: movieObject.imdbRating,
                     poster: movieObject.Poster,
                     imdbID: movieObject.imdbID
@@ -74,17 +77,24 @@ class Movies extends Component {
 
                 <div className='lowerBody'>
                     <div className='article'> 
+                    <SimpleReactLightbox>
 
-                    {/* eslint-disable-next-line array-callback-return */}
+                    <SRLWrapper>
                     { this.state.moviesList.map((movie) => {
-                             
+                        
+                        let movieTitle = movie.title;
+                        let movieDirector = movie.director;
+                        let movieRating = movie.rating;
+                        let altInfo = movieTitle + ' | Directed by ' + movieDirector + ' | IMDB Rating: ' + movieRating;
+                        
                         return (
-                            <img alt='' key={movie.imdbID} src={movie.poster}/>
+                            <img className='movie' alt={altInfo} key={movie.imdbID} src={movie.poster}/>
                         )
-                            
                       })
                     }
-
+                    </SRLWrapper>
+                    
+                    </SimpleReactLightbox>
                     </div>
                 </div>
 
