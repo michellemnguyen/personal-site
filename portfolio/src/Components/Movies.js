@@ -67,6 +67,12 @@ class Movies extends Component {
     }
 
     render() {
+
+        const wrapperOptions = {
+            thumbnails: {
+                showThumbnails: false
+            }
+        }
         
         return (
             <div>
@@ -79,7 +85,7 @@ class Movies extends Component {
                     <div className='article'> 
                     <SimpleReactLightbox>
 
-                    <SRLWrapper>
+                    <SRLWrapper options={wrapperOptions}>
                     { this.state.moviesList.map((movie) => {
                         
                         let movieTitle = movie.title;
