@@ -3,7 +3,7 @@ import axios from "axios";
 import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
 import '../milligram.css'
 
-const api_url = 'http://www.omdbapi.com/?apikey=1bfcf4bf&i=' // needs IMDB ID
+const api_url = 'https://www.omdbapi.com/?apikey=1bfcf4bf&i=' // needs IMDB ID
 
 let movies_list = ['tt0381707', 'tt0878804', 'tt0109830', 'tt0245429', 'tt0095016', 'tt0268978', 
                     'tt0319343', 'tt0119177', 'tt0119116', 'tt0816692', 'tt0910970', 'tt0099785']
