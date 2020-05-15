@@ -167,6 +167,7 @@ img {
 
 img.movie {
   -webkit-filter: brightness(100%);
+  padding: 5px;
 }
 
 img.movie:hover {
