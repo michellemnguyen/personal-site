@@ -48,7 +48,8 @@ class Movies extends Component {
                     title: movieObject.Title,
                     directer: movieObject.Director,
                     rating: movieObject.imdbRating,
-                    poster: movieObject.Poster
+                    poster: movieObject.Poster,
+                    imdbID: movieObject.imdbID
                 }
                 this.setState(prevState => ({
                     moviesList: [...prevState.moviesList, newMovie]
@@ -74,7 +75,15 @@ class Movies extends Component {
                 <div className='lowerBody'>
                     <div className='article'> 
 
-                    movie posters, eventually
+                    {/* eslint-disable-next-line array-callback-return */}
+                    { this.state.moviesList.map((movie) => {
+                             
+                        return (
+                            <img alt='' key={movie.imdbID} src={movie.poster}/>
+                        )
+                            
+                      })
+                    }
 
                     </div>
                 </div>
