@@ -4,6 +4,7 @@ import Projects from './Projects';
 import Travel from './Travel';
 import About from './About';
 import Guestbook from './Guestbook';
+import Movies from './Movies';
 
 class Body extends Component {
 
@@ -20,6 +21,8 @@ class Body extends Component {
                 return (<About/>);
             case 5:
                 return (<Guestbook/>);
+            case 6:
+                return (<Movies/>);    
             default:
                 return ('404');
         }
