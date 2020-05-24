@@ -45,37 +45,55 @@ class Movies extends Component {
 
     componentDidMount() {
 
+        let currentComponent = this;
+
         firebase.database().ref('/movieList/').once('value').then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 childSnapshot.forEach(function(grandSnapshot) {
                     var movieObject = grandSnapshot.val();
-                    console.log(movieObject.director);
+
+                    // create object with data
+                    let newMovie = {
+                        title: movieObject.title,
+                        director: movieObject.director,
+                        rating: movieObject.rating,
+                        poster: movieObject.poster,
+                        imdbID: movieObject.imdbID
+                    }
+
+                    console.log(newMovie)
+
+                    // place into state
+                    currentComponent.setState(prevState => ({
+                        moviesList: [...prevState.moviesList, newMovie]
+                    }))
+
                 });
               });
         });
           
 
-        movies_list.map((posterID) => {
-            axios.get(api_url+posterID)
-            .then(res => {
-                let movieObject = res.data
-                let newMovie = {
-                    title: movieObject.Title,
-                    director: movieObject.Director,
-                    rating: movieObject.imdbRating,
-                    poster: movieObject.Poster,
-                    imdbID: movieObject.imdbID
-                }
-                this.setState(prevState => ({
-                    moviesList: [...prevState.moviesList, newMovie]
-                }))
-            }).catch(err => {
-                console.log(err);
-            });
-            return (
-                console.log('Got data from: ' + api_url+posterID)
-            )
-        })
+        // movies_list.map((posterID) => {
+        //     axios.get(api_url+posterID)
+        //     .then(res => {
+        //         let movieObject = res.data
+        //         let newMovie = {
+        //             title: movieObject.Title,
+        //             director: movieObject.Director,
+        //             rating: movieObject.imdbRating,
+        //             poster: movieObject.Poster,
+        //             imdbID: movieObject.imdbID
+        //         }
+        //         this.setState(prevState => ({
+        //             moviesList: [...prevState.moviesList, newMovie]
+        //         }))
+        //     }).catch(err => {
+        //         console.log(err);
+        //     });
+        //     return (
+        //         console.log('Got data from: ' + api_url+posterID)
+        //     )
+        // })
     }
 
     render() {
