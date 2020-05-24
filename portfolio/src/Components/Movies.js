@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios"; 
+import firebase from '../firebase'
 import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
 import '../milligram.css'
 
@@ -43,6 +44,17 @@ class Movies extends Component {
     */
 
     componentDidMount() {
+
+        firebase.database().ref('/movieList/').once('value').then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                childSnapshot.forEach(function(grandSnapshot) {
+                    var movieObject = grandSnapshot.val();
+                    console.log(movieObject.director);
+                });
+              });
+        });
+          
+
         movies_list.map((posterID) => {
             axios.get(api_url+posterID)
             .then(res => {

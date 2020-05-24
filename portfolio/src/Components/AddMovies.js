@@ -79,7 +79,8 @@ class AddMovies extends Component {
                     title: movieObject.Title,
                     director: movieObject.Director,
                     rating: movieObject.imdbRating,
-                    poster: movieObject.Poster
+                    poster: movieObject.Poster,
+                    imdbID: movieObject.imdbID
                 };
                 console.log(newMovie);
 
