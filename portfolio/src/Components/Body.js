@@ -5,6 +5,8 @@ import Travel from './Travel';
 import About from './About';
 import Guestbook from './Guestbook';
 import Movies from './Movies';
+import AddMovies from './AddMovies';
+import Page404 from './Page404';
 
 class Body extends Component {
 
@@ -22,9 +24,11 @@ class Body extends Component {
             case 5:
                 return (<Guestbook/>);
             case 6:
-                return (<Movies/>);    
+                return (<Movies/>);
+            case 7:
+                return (<AddMovies/>);  
             default:
-                return ('404');
+                return (<Page404/>);
         }
     }
 
