@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import firebase from '../firebase'
+import axios from "axios"; 
+import '../milligram.css'
+
+const api_url = 'https://www.omdbapi.com/?apikey=1bfcf4bf&i=' // needs IMDB ID
 
 const validateForm = (errors, imdbID) => {
     let valid = true;
@@ -21,7 +26,8 @@ class AddMovies extends Component {
             imdbID: '',
             errors: {
                 imdbID: ''
-            }
+            },
+            movieObject: {}
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -57,37 +63,44 @@ class AddMovies extends Component {
         if(validateForm(this.state.errors, this.state.imdbID)) {
             console.info('Valid Form');
         } else {
-            alert('There are errors with your submission. Please check to see if you have properly filled out the required sections.');
+            alert('There is an error with your submission. Please check if the IMDB ID is correct.');
             return;
         }
 
-        // // tell firebase where to store our form data
-        // const itemsRef = firebase.database().ref('items');
+        // tell firebase where to store our form data
+        const moviesRef = firebase.database().ref('movies');
 
-        // // take what user inputted and package into object to send to firebase
-        // const formData = {
-        //   name: this.state.name,
-        //   bio: this.state.bio,
-        //   msg: this.state.msg,
-        //   isPublic: this.state.isPublic,
-        //   email: this.state.email,
-        //   date: currDate
-        // }
+        // make api call to get the desired data
+        axios.get(api_url+this.state.imdbID)
+            .then(res => {
+                let movieObject = res.data;
+                let newMovie = {
+                    title: movieObject.Title,
+                    director: movieObject.Director,
+                    rating: movieObject.imdbRating,
+                    poster: movieObject.Poster,
+                    imdbID: movieObject.imdbID
+                };
+                console.log(newMovie);
 
-        // // send to firebase 
-        // itemsRef.push(formData);
+                // package the movie data into an object, store in state
+                this.setState({movieObject: newMovie});
 
-        // // reset items in the form to empty
-        // this.setState({
-        //     name: '',
-        //     bio: '',
-        //     msg: '',
-        //     isPublic: false,
-        //     email: '',
-        //     date: ''
-        // });
+                 // send movie to firebase
+                moviesRef.push(newMovie);
 
-        alert('Your message has been submitted!');
+                // tell user the movie they've submitted
+                alert('The movie ' + newMovie.title + ' has been added to the database.');
+
+            }).catch(err => {
+                console.log(err);
+        });
+
+        // reset items in the form to empty
+        this.setState({
+            imdbID: '',
+            movieObject: ''
+        });
     }
 
     render() {
@@ -104,14 +117,14 @@ class AddMovies extends Component {
                     <div className='article'>
                         Here you can add a new movie.
 
-                        <form>
-                        <label>Enter the IMDB ID of the movie you would like to add.</label>
-                        <input type="text" name="imdbID" placeholder="IMDB Movie ID" 
-                            onChange={this.handleChange} value={this.state.name} />
-                        {errors.imdbID.length > 0 && <div className='error'>{errors.imdbID}</div>}
+                        <form onSubmit={this.handleSubmit}>
+                            <label>Enter the IMDB ID of the movie you would like to add.</label>
+                            <input type="text" name="imdbID" placeholder="IMDB Movie ID" 
+                                onChange={this.handleChange} value={this.state.name} />
+                            {errors.imdbID.length > 0 && <div className='error'>{errors.imdbID}</div>}
+                            <button>Submit</button>
                         </form>
 
-                        <button>Submit</button>
                     </div>
                 </div>
             </div>
