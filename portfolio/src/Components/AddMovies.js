@@ -67,19 +67,19 @@ class AddMovies extends Component {
             return;
         }
 
-        // tell firebase where to store our form data
-        const moviesRef = firebase.database().ref('movies');
-
         // make api call to get the desired data
         axios.get(api_url+this.state.imdbID)
             .then(res => {
                 let movieObject = res.data;
+
+                // tell firebase where to store our form data
+                const moviesRef = firebase.database().ref('movieList/' + movieObject.imdbID);
+
                 let newMovie = {
                     title: movieObject.Title,
                     director: movieObject.Director,
                     rating: movieObject.imdbRating,
-                    poster: movieObject.Poster,
-                    imdbID: movieObject.imdbID
+                    poster: movieObject.Poster
                 };
                 console.log(newMovie);
 
