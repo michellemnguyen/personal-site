@@ -42,7 +42,7 @@ class AddMovies extends Component {
         switch (name) {
 
             case 'imdbID':
-                errors.imdbID = value.length < 9
+                errors.imdbID = value.length < 9 || value[0] !== 't'
                                 ? 'IMDB ID must be a valid, existing ID.'
                                 : '';
                 break;
@@ -73,7 +73,7 @@ class AddMovies extends Component {
                 let movieObject = res.data;
 
                 // tell firebase where to store our form data
-                const moviesRef = firebase.database().ref('movieList/' + movieObject.imdbID);
+                const moviesRef = firebase.database().ref('movieList/All/' + movieObject.imdbID);
 
                 let newMovie = {
                     title: movieObject.Title,
