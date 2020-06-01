@@ -18,7 +18,7 @@ TODO:
 
 1.1 - Add new movie
 ------------
-- need to make it add to a specific database, the ALL database
+- DONE
 
 1.2 - Delete a movie
 ------------
@@ -31,7 +31,7 @@ TODO:
 
 1.4 - Create new list
 ------
--
+- DONE
 
 1.5 - Choose the list to display
 ------
@@ -56,15 +56,13 @@ class Movies extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currList: '',
             moviesList: [],
             listOfLists: [],
-            modalIsOpen: false,
-            setIsOpen: false,
-            subtitle: ''
+            titleSearch: ''
         }
 
-        this.renderCustomList = this.renderCustomList.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -112,18 +110,18 @@ class Movies extends Component {
     }
 
     renderCustomList(e, listName) {
-        
-        // prevent page from refreshing
-        e.preventDefault(); 
 
+        e.preventDefault();
+        
         console.log('called render custom list')
 
         let currentComponent = this;
-        // // clear out state
-        currentComponent.setState({moviesList: []})
+
+        // clear out state
+        // currentComponent.setState({moviesList: []})
 
         // read from firebase with specific list
-        firebase.database().ref('/movieList/' + listName + '/').once('value').then(function(snapshot) {
+        firebase.database().ref('/movieList/' + 'Watched' + '/').once('value').then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 childSnapshot.forEach(function(grandSnapshot) {
                     var movieObject = grandSnapshot.val();
@@ -149,6 +147,47 @@ class Movies extends Component {
         });
     }
 
+    handleChange(e) {
+        e.preventDefault();
+        const {name, value} = e.target;
+        this.setState({[name]: value});
+    }
+
+    handleSubmit(e) {
+
+        e.preventDefault(); 
+
+        // get movie name
+        let targetName = this.state.titleSearch;
+        console.log(targetName);
+
+        let foundMovie = false;
+
+        // connect to firebase to search through all movies 
+        firebase.database().ref('/movieList/All/').once('value').then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                childSnapshot.forEach(function(grandSnapshot) {
+                    let currMovieObject = grandSnapshot.val();
+                    let currTitle = currMovieObject.title;
+                    if (currTitle === targetName){
+                        foundMovie = true;
+
+                        // display ONLY that movie below now
+                    } 
+                });
+            });
+
+            if (!foundMovie) {
+                console.log('Movie does not exist in database');
+            }
+        });
+        
+        // reset item search to empty
+        this.setState({
+            titleSearch: ''
+        });
+    }
+
     render() {
         
         return (
@@ -157,6 +196,19 @@ class Movies extends Component {
                 <div className='title'>
                     <h1>Movie Database</h1>
                 </div>
+
+                <div className='lowerBody'>
+                    <div className='article'>
+                        <form onSubmit={this.handleSubmit}>
+                            <label>Type the name of the movie you're searching for</label>
+                            <input type="text" name="titleSearch" placeholder="New Custom List Name" 
+                                onChange={this.handleChange} value={this.state.name} />
+                            <button>Search</button>
+                        </form>
+                    </div>
+                </div>
+
+                <p></p>
 
                 <div className='lowerBody'>
 
@@ -169,7 +221,7 @@ class Movies extends Component {
                             { this.state.listOfLists.map((listName) => {
                                 return (
                                     <a href=' ' key={listName}
-                                       onClick={this.renderCustomList.bind(this, listName)}>{listName}</a>
+                                       onClick={() => this.renderCustomList(listName)}>{listName}</a>
                                 )
                             }) 
                             }
