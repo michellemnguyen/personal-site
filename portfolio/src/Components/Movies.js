@@ -44,7 +44,7 @@ TODO:
 
 1.7 - Search for a movie
 ------
-- 
+- just need to change what's displayed below
 
 1.8 - Pagination
 ------
@@ -63,6 +63,7 @@ class Movies extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     componentDidMount() {
@@ -106,10 +107,9 @@ class Movies extends Component {
                 }))
             });
         });
-          
     }
 
-    renderCustomList(e, listName) {
+    renderCustomList(e) {
 
         e.preventDefault();
         
@@ -125,7 +125,7 @@ class Movies extends Component {
             snapshot.forEach(function(childSnapshot) {
                 childSnapshot.forEach(function(grandSnapshot) {
                     var movieObject = grandSnapshot.val();
-
+                        //HBJ9SDU64G4
                     // create object with data
                     let newMovie = {
                         title: movieObject.title,
@@ -162,6 +162,7 @@ class Movies extends Component {
         console.log(targetName);
 
         let foundMovie = false;
+        let matchedMovie = [];
 
         // connect to firebase to search through all movies 
         firebase.database().ref('/movieList/All/').once('value').then(function(snapshot) {
@@ -172,23 +173,35 @@ class Movies extends Component {
                     if (currTitle === targetName){
                         foundMovie = true;
 
-                        // display ONLY that movie below now
+                        matchedMovie.push({
+                            title: currMovieObject.title,
+                            director: currMovieObject.director,
+                            rating: currMovieObject.rating,
+                            poster: currMovieObject.poster,
+                            imdbID: currMovieObject.imdbID
+                        });
+
+                        console.log('handleSubmit(): found a match:', matchedMovie);
+                        // TODO: display ONLY that movie below now
                     } 
                 });
             });
 
             if (!foundMovie) {
-                console.log('Movie does not exist in database');
+                console.log('handleSubmit(): Movie does not exist in database');
             }
         });
         
         // reset item search to empty
         this.setState({
-            titleSearch: ''
+            titleSearch: '',
+            moviesList:matchedMovie
         });
     }
 
     render() {
+
+        let numMovies = 0;
         
         return (
             <div>
@@ -221,7 +234,7 @@ class Movies extends Component {
                             { this.state.listOfLists.map((listName) => {
                                 return (
                                     <a href=' ' key={listName}
-                                       onClick={() => this.renderCustomList(listName)}>{listName}</a>
+                                       onClick={() => this.renderCustomList}>{listName}</a>
                                 )
                             }) 
                             }
@@ -229,14 +242,21 @@ class Movies extends Component {
                     </div>
 
                     <p>
+
+                        {console.log('render():', this.state.moviesList)}
+
+                        <SimpleReactLightbox>
+                        <SRLWrapper>
                         { this.state.moviesList.map((movie) => {
 
                             if (movie.title !== '' || movie.title !== undefined) {
+
+                                numMovies++;
+
                                 let movieTitle = movie.title;
                                 let movieDirector = movie.director;
                                 let movieRating = movie.rating;
-                                let altInfo = movieTitle + ' | Directed by ' + movieDirector + ' | IMDB Rating: ' + movieRating;
-                                
+                                let altInfo = movieTitle + ' | Directed by ' + movieDirector + ' | IMDB Rating: ' + movieRating;                                
                                 return (
                                     <img className='movie' 
                                         alt={altInfo} 
@@ -245,9 +265,11 @@ class Movies extends Component {
                                     />
                                 )
                             }
-                            
-                        })
-                    }
+                            console.log(numMovies)   
+                        })}
+                        </SRLWrapper>
+                        </SimpleReactLightbox>
+                    
                     </p>
 
                     </div>

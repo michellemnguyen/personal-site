@@ -73,7 +73,7 @@ class AddMovies extends Component {
                 let movieObject = res.data;
 
                 // tell firebase where to store our form data
-                const moviesRef = firebase.database().ref('movieList/Watched/' + movieObject.imdbID);
+                const moviesRef = firebase.database().ref('movieList/All/' + movieObject.imdbID);
 
                 let newMovie = {
                     title: movieObject.Title,
