@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import firebase from '../firebase'
 import SimpleReactLightbox, { SRLWrapper } from "simple-react-lightbox";
-import ReactModal from 'react-modal';
 import '../milligram.css'
 
 // let movies_list = ['tt0381707', 'tt0878804', 'tt0109830', 'tt0245429', 'tt0095016', 'tt0268978', 
@@ -52,8 +51,6 @@ TODO:
 - tbd after everything
 
 */
-
-  ReactModal.setAppElement('#root');
 class Movies extends Component {
 
     constructor(props) {
@@ -66,12 +63,17 @@ class Movies extends Component {
             setIsOpen: false,
             subtitle: ''
         }
+
+        this.renderCustomList = this.renderCustomList.bind(this);
     }
 
     componentDidMount() {
 
+        console.log('called component did mount')
+
         let currentComponent = this;
 
+        // load movies to display into state
         firebase.database().ref('/movieList/All/').once('value').then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 childSnapshot.forEach(function(grandSnapshot) {
@@ -96,7 +98,55 @@ class Movies extends Component {
                 });
               });
         });
+
+        // load listNames to dropdown into state
+        firebase.database().ref('/movieList/').once('value').then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                let listName = childSnapshot.key;
+                currentComponent.setState(prevState => ({
+                    listOfLists: [...prevState.listOfLists, listName]
+                }))
+            });
+        });
           
+    }
+
+    renderCustomList(e, listName) {
+        
+        // prevent page from refreshing
+        e.preventDefault(); 
+
+        console.log('called render custom list')
+
+        let currentComponent = this;
+        // // clear out state
+        currentComponent.setState({moviesList: []})
+
+        // read from firebase with specific list
+        firebase.database().ref('/movieList/' + listName + '/').once('value').then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                childSnapshot.forEach(function(grandSnapshot) {
+                    var movieObject = grandSnapshot.val();
+
+                    // create object with data
+                    let newMovie = {
+                        title: movieObject.title,
+                        director: movieObject.director,
+                        rating: movieObject.rating,
+                        poster: movieObject.poster,
+                        imdbID: movieObject.imdbID
+                    }
+
+                    if (newMovie.title !== undefined) {
+                        // place into state
+                        currentComponent.setState(prevState => ({
+                            moviesList: [...prevState.moviesList, newMovie]
+                        }))
+                    }
+                        
+                });
+              });
+        });
     }
 
     render() {
@@ -116,15 +166,13 @@ class Movies extends Component {
                         <button className="dropbtn">Select List</button>
                         <br/><br/>
                         <div className="dropdown-content">
-                            {/* TODO
-                            1) connect to firebase
-                            2) map through each of the lists
-                            3) display list names here 
-                            4) make right aligned
-                            5) change a -> button, need to make custom class */}
-                            <a href="#all">All</a>
-                            <a href="#wa">Watched</a>
-                            <a href="#ww">WannaWatch</a>
+                            { this.state.listOfLists.map((listName) => {
+                                return (
+                                    <a href=' ' key={listName}
+                                       onClick={this.renderCustomList.bind(this, listName)}>{listName}</a>
+                                )
+                            }) 
+                            }
                         </div>
                     </div>
 
