@@ -48,6 +48,10 @@ class App extends Component {
       {
         id: 6,
         title: 'Movies'
+      },
+      {
+        id: 9,
+        title: 'Graph'
       }
     ]
 

@@ -7,6 +7,7 @@ import Guestbook from './Guestbook';
 import Movies from './Movies';
 import AddMovies from './AddMovies';
 import CreateList from './CreateList';
+import MovieGraph from './MovieGraph';
 import Page404 from './Page404';
 
 class Body extends Component {
@@ -29,7 +30,9 @@ class Body extends Component {
             case 7:
                 return (<AddMovies/>);  
             case 8:
-                return (<CreateList/>)
+                return (<CreateList/>);
+            case 9:
+                return (<MovieGraph/>)
             default:
                 return (<Page404/>);
         }
