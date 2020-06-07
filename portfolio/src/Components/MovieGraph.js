@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 import firebase from '../firebase'
@@ -141,22 +142,21 @@ class MovieGraph extends Component {
         const obj_links = links.map(d => Object.create(d));
 
         const svg = d3.create('svg').attr('viewBox', [0, 0, width, height]);
-        var defs = svg.append('svg:defs');
 
+        // create custom defs for each movieID
+        var defs = svg.append('svg:defs');
         let allMovies = nodes.filter(n => n.type === 0)
         allMovies.forEach(movie => {
-
             defs.append("svg:pattern")
-                .attr("id", movie.id)
-                .attr("width", 1)
-                .attr("height", 1)
+                    .attr("id", movie.id)
+                    .attr("width", 1)
+                    .attr("height", 1)
                 .append("svg:image")
-                .attr("xlink:href", movie.poster)
-                .attr("width", '350')
-                .attr("height", '350')
-                .attr("x", -55)
-                .attr("y", 0);
-                    
+                    .attr("xlink:href", movie.poster)
+                    .attr("width", '350')
+                    .attr("height", '350')
+                    .attr("x", -55)
+                    .attr("y", 0);
         });
 
         const color = (node) => {
@@ -173,17 +173,30 @@ class MovieGraph extends Component {
                 return 100;
         }
 
+        const actorName = (node) => {
+            return node.name;
+        }
+
         const fillID = (node) => {
             if (node.type === 0) return 'url(#' + node.id + ')';                
         }
 
         const simulation = d3.forceSimulation(obj_nodes)
-                            .force('link', d3.forceLink().links(obj_links).id(d => {return d.index;}).distance(200))
+                            .force('link', d3.forceLink().links(obj_links).id(d => {return d.index;}).distance(300))
                             .force('charge', d3.forceManyBody())
                             .force('center', d3.forceCenter(width/2, height/2));
 
-        // what each movie node looks like
-        let node = svg.append('g')
+        var tooltip = d3.select("body")
+            .append("div")
+            .style("position", "absolute")
+            .style("z-index", "10")
+            .style("visibility", "hidden")
+            .style('background-color', 'white')
+            .style('font-weight', 'bold')
+            .style('padding', '2px 5px');       
+
+        // what each node looks like
+        const node = svg.append('g')
             .attr('stroke', '#fff')
             .attr('stroke-width', 1.5)
             .selectAll('circle')
@@ -192,8 +205,16 @@ class MovieGraph extends Component {
             .attr('r', radius)
             .attr('fill', color)
             .style('fill', fillID)
-            // .append("svg:title") // TITLE APPENDED HERE
-            // .text(function(d) { return 'something'; })
+            .on("mouseover", function(n){
+                return tooltip.style("visibility", "visible").text(n.name);
+            })
+            .on("mousemove", function(n){
+                return tooltip.style("top", (event.pageY-10)+"px")
+                                .style("left",(event.pageX+10)+"px")
+                                .text(n.name);})
+            .on("mouseout", function(){
+                return tooltip.style("visibility", "hidden");
+            })
             .call(this.drag(simulation));
 
         // what each link looks like
@@ -230,9 +251,8 @@ class MovieGraph extends Component {
 
                 <div className='lowerBody'><div className='article'>
                     
-                <div id='mySvg'> 
-
-                </div>
+                    <div id='mySvg'> 
+                    </div>
                             
                 </div></div> 
             </div>
