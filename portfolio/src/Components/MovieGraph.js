@@ -13,6 +13,7 @@ class MovieGraph extends Component {
         }
 
         this.chart = this.chart.bind(this);
+        this.actorExists = this.actorExists.bind(this);
     }
 
     componentDidMount() {
@@ -30,25 +31,20 @@ class MovieGraph extends Component {
                         type: 0,
                         name: movieObject.title,
                         poster: movieObject.poster,
+                        actors: movieObject.actors
                     }
 
-                    // add movie as new node
+                    // add movie and its actors as new node
                     if (newMovie.name !== undefined) {
 
-                        console.log('adding new movie', newMovie)
-
-                        // place into state
+                        // create new movie node
                         currentComponent.setState(prevState => ({
                             nodes: [...prevState.nodes, newMovie]
                         }))
-                    }
 
-                    if (movieObject.actors !== undefined) {
-                        // iterate through movie's actors
+                        // iterate through new movie's actors
                         let newActors = movieObject.actors;
                         let newActorsList = newActors.split(', ');
-                        console.log(newActorsList);
-
                         newActorsList.forEach(a => {
                             
                             let newActor = {
@@ -56,22 +52,48 @@ class MovieGraph extends Component {
                                 name: a
                             }
                             
-                            console.log('adding new actor', newActor)
-
                             // if not already a node, add into nodes
-                            let currNodeList = currentComponent.state.nodes;
-                            if (!currNodeList.includes(newActor)) {
+                            if (!currentComponent.actorExists(newActor)) {
+                                console.log('new actor', newActor)
                                 currentComponent.setState(prevState => ({
                                     nodes: [...prevState.nodes, newActor]
                                 }))
                             }
+
+                            console.log('creating link between ' + newMovie.name + ' & ' + newActor.name)
+
+                            // create a link between the movie and the actor
+                            let newLink = {
+                                source: currentComponent.state.nodes.indexOf(newMovie),
+                                target: currentComponent.state.nodes.map(function(n) { return n.name; }).indexOf(newActor.name)
+                            }
+
+                            // add link to state.links
+                            currentComponent.setState(prevState => ({
+                                links: [...prevState.links, newLink]
+                            }))
                         });
-                        
-                    }
-                        
+
+                    }                        
                 });
               });
-        });
+        });        
+    }
+
+    actorExists(actor) {
+        let actorName = actor.name
+        console.log('name checking', actorName)
+        let allActors = this.state.nodes.filter(n => n.type === 1)
+        console.log('all actors', allActors)
+        let hasActor = allActors.some(actorObj => actorObj.name.indexOf(actorName) > -1);
+        console.log('has actor', hasActor)
+        return hasActor
+    }
+
+    componentDidUpdate() {
+
+        console.log('nodes:', this.state.nodes)
+        console.log('links:', this.state.links)
 
         const elem = document.getElementById('mySvg');
         elem.appendChild(this.chart(this.state.nodes, this.state.links));
@@ -103,11 +125,11 @@ class MovieGraph extends Component {
     }
 
     chart(nodes, links) {
+
         const width = 1980;
         const height = 1080;
 
         const obj_nodes = nodes.map(d => Object.create(d));
-        console.log(obj_nodes)
         const obj_links = links.map(d => Object.create(d));
 
         const svg = d3.create('svg').attr('viewBox', [0, 0, width, height]);
@@ -122,21 +144,21 @@ class MovieGraph extends Component {
             .attr('stroke-width', d => (Math.sqrt(d.value)));
 
         const color = (node) => {
-            if (node.group === 1) // is a name
+            if (node.type === 1) // actor
                 return d3.color('blue');
             else
                 return d3.color('pink');
         }
 
         const radius = (node) => {
-            if (node.group === 1) // name
+            if (node.type === 1) // actor = 1
                 return 20;
-            else
+            else // movie = 0
                 return 40;
         }
 
         const simulation = d3.forceSimulation(obj_nodes)
-                            .force('link', d3.forceLink().links(links).id(d => {return d.index;}).distance(200))
+                            .force('link', d3.forceLink().links(obj_links).id(d => {return d.index;}).distance(200))
                             .force('charge', d3.forceManyBody())
                             .force('center', d3.forceCenter(width/2, height/2));
 
@@ -150,9 +172,6 @@ class MovieGraph extends Component {
             .attr('r', radius)
             .attr('fill', color)
             .call(this.drag(simulation));
-
-        console.log(link)
-        console.log(node)
 
         // updates node and link positions
         simulation.on('tick', () => {
