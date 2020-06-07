@@ -61,7 +61,7 @@ class MovieGraph extends Component {
                             }
                             
                             // if not already a node, add into nodes
-                            if (!currentComponent.actorExists(newActor)) {
+                            if (!currentComponent.actorExists(newActor, nodesToBe)) {
                                 // currentComponent.setState(prevState => ({
                                 //     nodes: [...prevState.nodes, newActor]
                                 // }))
@@ -83,13 +83,11 @@ class MovieGraph extends Component {
 
                     }                        
                 });
-              });
+
+            });
         });
 
-        console.log('[COMPONENTDIDMOUNT] nodesToBe', nodesToBe)
-        console.log('[COMPONENTDIDMOUNT] linksToBe', linksToBe)
-        
-        this.setState(
+        currentComponent.setState(
             {
                 nodes: nodesToBe, 
                 links: linksToBe
@@ -98,9 +96,9 @@ class MovieGraph extends Component {
 
     }
 
-    actorExists(actor) {
+    actorExists(actor, nodes) {
         let actorName = actor.name
-        let allActors = this.state.nodes.filter(n => n.type === 1)
+        let allActors = nodes.filter(n => n.type === 1)
         let hasActor = allActors.some(actorObj => actorObj.name.indexOf(actorName) > -1);
         return hasActor
     }
