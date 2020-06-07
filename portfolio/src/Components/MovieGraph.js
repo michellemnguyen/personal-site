@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import * as d3 from 'd3';
 import firebase from '../firebase'
 
+let currChild;
+
 class MovieGraph extends Component {
 
     constructor(props) {
@@ -10,7 +12,7 @@ class MovieGraph extends Component {
 
         this.state = {
             nodes: [],
-            links: []            
+            links: []         
         }
 
         this.chart = this.chart.bind(this);
@@ -83,6 +85,9 @@ class MovieGraph extends Component {
                 });
               });
         });
+
+        console.log('[COMPONENTDIDMOUNT] nodesToBe', nodesToBe)
+        console.log('[COMPONENTDIDMOUNT] linksToBe', linksToBe)
         
         this.setState(
             {
@@ -90,6 +95,7 @@ class MovieGraph extends Component {
                 links: linksToBe
             }
         );
+
     }
 
     actorExists(actor) {
@@ -135,6 +141,9 @@ class MovieGraph extends Component {
 
     chart(nodes, links) {
 
+        console.log('[CHART] nodes:', nodes)
+        console.log('[CHART] links:', links)
+
         const width = 1980;
         const height = 1080;
 
@@ -161,9 +170,9 @@ class MovieGraph extends Component {
 
         const color = (node) => {
             if (node.type === 1) // actor
-                return d3.color('blue');
-            else
                 return d3.color('pink');
+            else
+                return d3.color('blue');
         }
 
         const radius = (node) => {
@@ -171,10 +180,6 @@ class MovieGraph extends Component {
                 return 50;
             else // movie = 0
                 return 100;
-        }
-
-        const actorName = (node) => {
-            return node.name;
         }
 
         const fillID = (node) => {
