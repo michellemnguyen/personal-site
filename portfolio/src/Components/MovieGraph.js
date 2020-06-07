@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
+import firebase from '../firebase'
 
 class MovieGraph extends Component {
 
@@ -7,28 +8,71 @@ class MovieGraph extends Component {
         super(props);
 
         this.state = {
-            nodes: [
-                {
-                    name: 'Michelle',
-                    group: 1
-                },
-                {
-                    name: 'Nguyen',
-                    group: 2
-                }
-            ],
-            links: [
-                {
-                    source: 1,
-                    target: 0
-                }
-            ]            
+            nodes: [],
+            links: []            
         }
 
         this.chart = this.chart.bind(this);
     }
 
     componentDidMount() {
+
+        let currentComponent = this;
+
+        // load movies to display into state
+        firebase.database().ref('/movieList/GraphViz/').once('value').then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                childSnapshot.forEach(function(grandSnapshot) {
+                    var movieObject = grandSnapshot.val();
+
+                    // create object with data
+                    let newMovie = {
+                        type: 0,
+                        name: movieObject.title,
+                        poster: movieObject.poster,
+                    }
+
+                    // add movie as new node
+                    if (newMovie.name !== undefined) {
+
+                        console.log('adding new movie', newMovie)
+
+                        // place into state
+                        currentComponent.setState(prevState => ({
+                            nodes: [...prevState.nodes, newMovie]
+                        }))
+                    }
+
+                    if (movieObject.actors !== undefined) {
+                        // iterate through movie's actors
+                        let newActors = movieObject.actors;
+                        let newActorsList = newActors.split(', ');
+                        console.log(newActorsList);
+
+                        newActorsList.forEach(a => {
+                            
+                            let newActor = {
+                                type: 1,
+                                name: a
+                            }
+                            
+                            console.log('adding new actor', newActor)
+
+                            // if not already a node, add into nodes
+                            let currNodeList = currentComponent.state.nodes;
+                            if (!currNodeList.includes(newActor)) {
+                                currentComponent.setState(prevState => ({
+                                    nodes: [...prevState.nodes, newActor]
+                                }))
+                            }
+                        });
+                        
+                    }
+                        
+                });
+              });
+        });
+
         const elem = document.getElementById('mySvg');
         elem.appendChild(this.chart(this.state.nodes, this.state.links));
     }
