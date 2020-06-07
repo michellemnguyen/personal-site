@@ -20,6 +20,9 @@ class MovieGraph extends Component {
 
         let currentComponent = this;
 
+        let nodesToBe = []
+        let linksToBe = []
+
         // load movies to display into state
         firebase.database().ref('/movieList/GraphViz/').once('value').then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
@@ -31,16 +34,18 @@ class MovieGraph extends Component {
                         type: 0,
                         name: movieObject.title,
                         poster: movieObject.poster,
-                        actors: movieObject.actors
+                        actors: movieObject.actors,
+                        id: movieObject.imdbID
                     }
 
                     // add movie and its actors as new node
                     if (newMovie.name !== undefined) {
 
                         // create new movie node
-                        currentComponent.setState(prevState => ({
-                            nodes: [...prevState.nodes, newMovie]
-                        }))
+                        // currentComponent.setState(prevState => ({
+                        //     nodes: [...prevState.nodes, newMovie]
+                        // }))
+                        nodesToBe.push(newMovie);
 
                         // iterate through new movie's actors
                         let newActors = movieObject.actors;
@@ -54,13 +59,11 @@ class MovieGraph extends Component {
                             
                             // if not already a node, add into nodes
                             if (!currentComponent.actorExists(newActor)) {
-                                console.log('new actor', newActor)
-                                currentComponent.setState(prevState => ({
-                                    nodes: [...prevState.nodes, newActor]
-                                }))
+                                // currentComponent.setState(prevState => ({
+                                //     nodes: [...prevState.nodes, newActor]
+                                // }))
+                                nodesToBe.push(newActor);
                             }
-
-                            console.log('creating link between ' + newMovie.name + ' & ' + newActor.name)
 
                             // create a link between the movie and the actor
                             let newLink = {
@@ -69,24 +72,29 @@ class MovieGraph extends Component {
                             }
 
                             // add link to state.links
-                            currentComponent.setState(prevState => ({
-                                links: [...prevState.links, newLink]
-                            }))
+                            // currentComponent.setState(prevState => ({
+                            //     links: [...prevState.links, newLink]
+                            // }))
+                            linksToBe.push(newLink);
                         });
 
                     }                        
                 });
               });
-        });        
+        });
+        
+        this.setState(
+            {
+                nodes: nodesToBe, 
+                links: linksToBe
+            }
+        );
     }
 
     actorExists(actor) {
         let actorName = actor.name
-        console.log('name checking', actorName)
         let allActors = this.state.nodes.filter(n => n.type === 1)
-        console.log('all actors', allActors)
         let hasActor = allActors.some(actorObj => actorObj.name.indexOf(actorName) > -1);
-        console.log('has actor', hasActor)
         return hasActor
     }
 
@@ -133,15 +141,23 @@ class MovieGraph extends Component {
         const obj_links = links.map(d => Object.create(d));
 
         const svg = d3.create('svg').attr('viewBox', [0, 0, width, height]);
+        var defs = svg.append('svg:defs');
 
-        // what each link looks like
-        const link = svg.append('g')
-            .attr('stroke', '#999')
-            .attr('stroke-opacity', 0.5)
-            .selectAll('line')
-            .data(obj_links)
-            .join('line')
-            .attr('stroke-width', d => (Math.sqrt(d.value)));
+        let allMovies = nodes.filter(n => n.type === 0)
+        allMovies.forEach(movie => {
+
+            defs.append("svg:pattern")
+                .attr("id", movie.id)
+                .attr("width", 1)
+                .attr("height", 1)
+                .append("svg:image")
+                .attr("xlink:href", movie.poster)
+                .attr("width", '350')
+                .attr("height", '350')
+                .attr("x", -55)
+                .attr("y", 0);
+                    
+        });
 
         const color = (node) => {
             if (node.type === 1) // actor
@@ -152,9 +168,13 @@ class MovieGraph extends Component {
 
         const radius = (node) => {
             if (node.type === 1) // actor = 1
-                return 20;
+                return 50;
             else // movie = 0
-                return 40;
+                return 100;
+        }
+
+        const fillID = (node) => {
+            if (node.type === 0) return 'url(#' + node.id + ')';                
         }
 
         const simulation = d3.forceSimulation(obj_nodes)
@@ -163,7 +183,7 @@ class MovieGraph extends Component {
                             .force('center', d3.forceCenter(width/2, height/2));
 
         // what each movie node looks like
-        const node = svg.append('g')
+        let node = svg.append('g')
             .attr('stroke', '#fff')
             .attr('stroke-width', 1.5)
             .selectAll('circle')
@@ -171,7 +191,19 @@ class MovieGraph extends Component {
             .join('circle')
             .attr('r', radius)
             .attr('fill', color)
+            .style('fill', fillID)
+            // .append("svg:title") // TITLE APPENDED HERE
+            // .text(function(d) { return 'something'; })
             .call(this.drag(simulation));
+
+        // what each link looks like
+        const link = svg.append('g')
+        .attr('stroke', '#999')
+        .attr('stroke-opacity', 0.5)
+        .selectAll('line')
+        .data(obj_links)
+        .join('line')
+        .attr('stroke-width', d => (Math.sqrt(d.value)));
 
         // updates node and link positions
         simulation.on('tick', () => {
