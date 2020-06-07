@@ -24,7 +24,7 @@ class CreateList extends Component {
     handleSubmit(e) {
 
         // // prevent page from refreshing
-        // e.preventDefault(); 
+        e.preventDefault(); 
 
         // connect to firebase and create new list
         let listRef = firebase.database().ref('movieList/' + this.state.listName + '/');
